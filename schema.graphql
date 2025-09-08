@@ -1,0 +1,58 @@
+scalar DateTime
+
+type User { id: ID!, name: String, image: String, email: String! }
+type Ingredient { id: ID!, name: String!, quantity: String }
+type Step { id: ID!, index: Int!, text: String!, imageUrl: String }
+type Tag { id: ID!, name: String! }
+
+type Comment {
+  id: ID!
+  text: String!
+  author: User!
+  createdAt: DateTime!
+}
+
+type Like { id: ID!, user: User! }
+
+type Recipe {
+  id: ID!
+  title: String!
+  description: String
+  coverImage: String
+  author: User!
+  ingredients: [Ingredient!]!
+  steps: [Step!]!
+  tags: [Tag!]!
+  comments(first: Int = 20, after: String): CommentConnection!
+  likesCount: Int!
+  createdAt: DateTime!
+}
+
+type CommentEdge { node: Comment!, cursor: String! }
+type PageInfo { endCursor: String, hasNextPage: Boolean! }
+type CommentConnection { edges: [CommentEdge!]!, pageInfo: PageInfo! }
+
+type RecipeEdge { node: Recipe!, cursor: String! }
+type RecipeConnection { edges: [RecipeEdge!]!, pageInfo: PageInfo! }
+
+input NewIngredient { name: String!, quantity: String }
+input NewStep { index: Int!, text: String!, imageUrl: String }
+input NewRecipe {
+  title: String!
+  description: String
+  coverImage: String
+  ingredients: [NewIngredient!]!
+  steps: [NewStep!]!
+  tagNames: [String!]!
+}
+
+type Query {
+  recipes(first: Int = 20, after: String, tags: [String!]): RecipeConnection!
+  recipe(id: ID!): Recipe
+}
+
+type Mutation {
+  addRecipe(input: NewRecipe!): Recipe!
+  addComment(recipeId: ID!, text: String!): Comment!
+  toggleLike(recipeId: ID!): Boolean!
+}
