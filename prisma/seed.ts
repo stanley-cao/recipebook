@@ -1,30 +1,40 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+// prisma/seed.ts
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 async function main() {
-  const alice = await prisma.user.upsert({
-    where: { email: 'alice@example.com' },
-    update: {},
-    create: { email: 'alice@example.com', name: 'Alice' },
-  })
+  // Clear out old data first (so it's repeatable during dev)
+  await prisma.recipe.deleteMany();
 
-  const vegan = await prisma.tag.upsert({
-    where: { name: 'vegan' }, update: {}, create: { name: 'vegan' }
-  })
-  const quick = await prisma.tag.upsert({
-    where: { name: 'quick' }, update: {}, create: { name: 'quick' }
-  })
-
-  const r = await prisma.recipe.create({
+  // Seed a sample recipe
+  const recipe = await prisma.recipe.create({
     data: {
       title: 'Quick Avocado Toast',
+      slug: 'quick-avocado-toast',
       description: 'Simple and tasty breakfast',
-      authorId: alice.id,
-      ingredients: { create: [{ name: 'Bread' }, { name: 'Avocado' }, { name: 'Salt' }] },
-      steps: { create: [{ index: 1, text: 'Toast bread' }, { index: 2, text: 'Mash avocado and spread' }] },
-      tags: { create: [{ tagId: vegan.id }, { tagId: quick.id }] },
+      coverImage: null,
+      images: [],
+      tags: ['vegan', 'quick'],
+      estimatedMinutes: 5,
+      ingredients: {
+        create: [
+          { name: 'Bread', quantity: '2 slices' },
+          { name: 'Avocado', quantity: '1 ripe' },
+          { name: 'Salt', quantity: 'to taste' },
+        ],
+      },
+      steps: {
+        create: [
+          { index: 1, text: 'Toast bread' },
+          { index: 2, text: 'Mash avocado and spread' },
+          { index: 3, text: 'Sprinkle salt on top' },
+        ],
+      },
     },
-  })
-  console.log('Seeded recipe', r.id)
+    include: { steps: true, ingredients: true },
+  });
+
+  console.log('Seeded recipe:', recipe.title);
 }
-main().finally(() => prisma.$disconnect())
+
+main().finally(() => prisma.$disconnect());

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "./providers";
+import Sidebar from "./components/Sidebar";
 
 export const metadata: Metadata = {
   title: "Recipebook",
@@ -12,12 +13,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <head>
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body style={{ fontFamily: 'Inter, system-ui, Arial, sans-serif' }}>
-        <Providers>{children}</Providers>
+      <body style={{ fontFamily: "Inter, system-ui, Arial, sans-serif" }}>
+        <Providers>
+          <div className="app-shell">
+            <Sidebar />
+            <main className="with-sidebar">{children}</main>
+          </div>
+        </Providers>
       </body>
     </html>
   );

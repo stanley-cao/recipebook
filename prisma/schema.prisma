@@ -1,9 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
+// prisma/schema.prisma
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,84 +8,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  image     String?
-  recipes   Recipe[]
-  comments  Comment[]
-  likes     Like[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Recipe {
-  id          String       @id @default(cuid())
-  title       String
-  description String?
-  coverImage  String?
-  steps       Step[]
-  ingredients Ingredient[]
-  tags        RecipeTag[]
-  comments    Comment[]
-  likes       Like[]
-  author      User         @relation(fields: [authorId], references: [id])
-  authorId    String
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id               String       @id @default(cuid())
+  title            String
+  slug             String?      @unique
+  description      String?
+  coverImage       String?
+  images           String[] // postgres text[]
+  tags             String[] // postgres text[]
+  estimatedMinutes Int?
+  steps            Step[]
+  ingredients      Ingredient[]
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
 }
 
 model Step {
-  id        String  @id @default(cuid())
-  index     Int
-  text      String
-  imageUrl  String?
-  recipe    Recipe  @relation(fields: [recipeId], references: [id])
-  recipeId  String
+  id       String  @id @default(cuid())
+  index    Int
+  text     String
+  imageUrl String?
+  recipe   Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  recipeId String
 
   @@unique([recipeId, index])
 }
 
 model Ingredient {
-  id        String  @id @default(cuid())
-  name      String
-  quantity  String?
-  recipe    Recipe  @relation(fields: [recipeId], references: [id])
-  recipeId  String
-}
-
-model Tag {
-  id     String      @id @default(cuid())
-  name   String      @unique
-  recipes RecipeTag[]
-}
-
-model RecipeTag {
-  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  id       String  @id @default(cuid())
+  name     String
+  quantity String?
+  recipe   Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   recipeId String
-  tag      Tag    @relation(fields: [tagId], references: [id])
-  tagId    String
-
-  @@id([recipeId, tagId])
-}
-
-model Comment {
-  id        String   @id @default(cuid())
-  text      String
-  recipe    Recipe   @relation(fields: [recipeId], references: [id])
-  recipeId  String
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
-  createdAt DateTime @default(now())
-}
-
-model Like {
-  id       String @id @default(cuid())
-  recipe   Recipe @relation(fields: [recipeId], references: [id])
-  recipeId String
-  user     User   @relation(fields: [userId], references: [id])
-  userId   String
-
-  @@unique([recipeId, userId])
 }

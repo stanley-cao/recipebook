@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5d655bcde77f6be3fd8a5bf6102fe49c>>
+ * @generated SignedSource<<6dd6c6256626aa5d503614df13c5351a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,9 +12,12 @@ import { ConcreteRequest } from 'relay-runtime';
 export type NewRecipe = {
   coverImage?: string | null | undefined;
   description?: string | null | undefined;
+  estimatedMinutes?: number | null | undefined;
+  images?: ReadonlyArray<string> | null | undefined;
   ingredients: ReadonlyArray<NewIngredient>;
+  slug?: string | null | undefined;
   steps: ReadonlyArray<NewStep>;
-  tagNames: ReadonlyArray<string>;
+  tags?: ReadonlyArray<string> | null | undefined;
   title: string;
 };
 export type NewIngredient = {
@@ -26,17 +29,17 @@ export type NewStep = {
   index: number;
   text: string;
 };
-export type page_AddRecipeMutation$variables = {
+export type pageAddRecipeMutation$variables = {
   input: NewRecipe;
 };
-export type page_AddRecipeMutation$data = {
+export type pageAddRecipeMutation$data = {
   readonly addRecipe: {
     readonly id: string;
   };
 };
-export type page_AddRecipeMutation = {
-  response: page_AddRecipeMutation$data;
-  variables: page_AddRecipeMutation$variables;
+export type pageAddRecipeMutation = {
+  response: pageAddRecipeMutation$data;
+  variables: pageAddRecipeMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -78,7 +81,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "page_AddRecipeMutation",
+    "name": "pageAddRecipeMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -87,20 +90,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "page_AddRecipeMutation",
+    "name": "pageAddRecipeMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "bdb2c5244029c488dc5f5315ff90c9d7",
+    "cacheID": "a7974b82d33491a0942b2c95f0e8d69a",
     "id": null,
     "metadata": {},
-    "name": "page_AddRecipeMutation",
+    "name": "pageAddRecipeMutation",
     "operationKind": "mutation",
-    "text": "mutation page_AddRecipeMutation(\n  $input: NewRecipe!\n) {\n  addRecipe(input: $input) {\n    id\n  }\n}\n"
+    "text": "mutation pageAddRecipeMutation(\n  $input: NewRecipe!\n) {\n  addRecipe(input: $input) {\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "b354a9baca4f98b23056fbf05e026aec";
+(node as any).hash = "e10e0249610df9f0715e7f601ca6e999";
 
 export default node;

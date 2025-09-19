@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5ed07276a3308333d94a39973b5dd8f1>>
+ * @generated SignedSource<<580db52a4dea8340fb086bf4e20d25c9>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,15 +9,15 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from 'relay-runtime';
-export type page_ToggleLikeMutation$variables = {
-  recipeId: string;
+export type DeleteButtonMutation$variables = {
+  id: string;
 };
-export type page_ToggleLikeMutation$data = {
-  readonly toggleLike: boolean;
+export type DeleteButtonMutation$data = {
+  readonly deleteRecipe: boolean;
 };
-export type page_ToggleLikeMutation = {
-  response: page_ToggleLikeMutation$data;
-  variables: page_ToggleLikeMutation$variables;
+export type DeleteButtonMutation = {
+  response: DeleteButtonMutation$data;
+  variables: DeleteButtonMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -25,7 +25,7 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "recipeId"
+    "name": "id"
   }
 ],
 v1 = [
@@ -34,12 +34,12 @@ v1 = [
     "args": [
       {
         "kind": "Variable",
-        "name": "recipeId",
-        "variableName": "recipeId"
+        "name": "id",
+        "variableName": "id"
       }
     ],
     "kind": "ScalarField",
-    "name": "toggleLike",
+    "name": "deleteRecipe",
     "storageKey": null
   }
 ];
@@ -48,7 +48,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "page_ToggleLikeMutation",
+    "name": "DeleteButtonMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -57,20 +57,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "page_ToggleLikeMutation",
+    "name": "DeleteButtonMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "071fd47151ec152d2d12f25695a7b5b0",
+    "cacheID": "570e266b4895dbfd32e0f49afd836d66",
     "id": null,
     "metadata": {},
-    "name": "page_ToggleLikeMutation",
+    "name": "DeleteButtonMutation",
     "operationKind": "mutation",
-    "text": "mutation page_ToggleLikeMutation(\n  $recipeId: ID!\n) {\n  toggleLike(recipeId: $recipeId)\n}\n"
+    "text": "mutation DeleteButtonMutation(\n  $id: ID!\n) {\n  deleteRecipe(id: $id)\n}\n"
   }
 };
 })();
 
-(node as any).hash = "370cf267182f2818336a70629209ca82";
+(node as any).hash = "6e5de696820b30251cbfc1b5d80642bd";
 
 export default node;
