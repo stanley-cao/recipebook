@@ -60,7 +60,7 @@ async function uploadFile(file: File) {
   const res = await fetch('/api/upload', { method: 'POST', body: formData })
   if (!res.ok) throw new Error(await res.text().catch(()=>'Upload failed'))
   const json = await res.json()
-  console.log('Resized to:', json.width, 'x', json.height) // 👈 verify
+  console.log('Resized to:', json.width, 'x', json.height) 
   return json.url as string
 }
 
@@ -95,7 +95,7 @@ export default function ImageUpload({
         <img
           src={value}
           alt="cover"
-          style={{ maxWidth: 320, borderRadius: 8, border: '1px solid #222' }}
+          className = "recipe-thumb"
         />
       )}
 

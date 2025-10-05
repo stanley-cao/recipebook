@@ -35,6 +35,7 @@ input NewRecipe {
 type Query {
   recipes(tags: [String!]): [Recipe!]!
   recipe(id: ID!): Recipe
+  availableTags: [String!]!
 }
 
 type Mutation {

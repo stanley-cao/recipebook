@@ -13,7 +13,7 @@ const RecipeQuery = graphql`
       description
       coverImage
       images
-      tags                # now [String!] (scalar) — no sub-selections
+      tags
       estimatedMinutes
       ingredients { id name quantity }
       steps { id index text imageUrl }
@@ -26,7 +26,7 @@ const RecipeQuery = graphql`
 export default function RecipePage(
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = use(params) // unwrap Promise (Next 15)
+  const { id } = use(params)
   const data = useLazyLoadQuery<pageRecipeQuery>(RecipeQuery, { id })
 
   if (!data.recipe) return <div className="container">Not found</div>
@@ -34,22 +34,27 @@ export default function RecipePage(
 
   return (
     <main className="container">
-      <div className="card" style={{ padding: 24 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
-          <h1 className="recipe-title" style={{ fontSize: 28, margin: 0 }}>{r.title}</h1>
-          <DeleteButton id={r.id} />
-        </div>
+      <div className="card recipe-content">
+        {/* Title + Image centered */}
+        <header className="recipe-hero">
+          <h1 className="recipe-title" style={{ fontSize: 28, margin: 0 }}>
+            {r.title}
+          </h1>
 
-        {r.coverImage && (
-          <img
-            src={r.coverImage}
-            alt=""
-            style={{ width: '100%', maxWidth: 720, marginTop: 12, borderRadius: 8 }}
-          />
-        )}
+          {r.coverImage && (
+            <img
+              src={r.coverImage}
+              alt={r.title || 'Recipe image'}
+              className="recipe-thumb"
+            />
+          )}
+        </header>
 
+        {/* Body (left-aligned) */}
         {r.description && (
-          <p className="recipe-desc" style={{ marginTop: 12 }}>{r.description}</p>
+          <p className="recipe-desc" style={{ marginTop: 12 }}>
+            {r.description}
+          </p>
         )}
 
         {typeof r.estimatedMinutes === 'number' && (
@@ -81,9 +86,16 @@ export default function RecipePage(
             .slice()
             .sort((a, b) => a.index - b.index)
             .map(s => (
-              <li key={s.id} style={{ marginBottom: 6 }}>{s.text}</li>
+              <li key={s.id} style={{ marginBottom: 6 }}>
+                {s.text}
+              </li>
             ))}
         </ol>
+
+        {/* Delete button centered */}
+        <div className="center-row" style={{ marginTop: 16 }}>
+          <DeleteButton id={r.id} />
+        </div>
       </div>
     </main>
   )
